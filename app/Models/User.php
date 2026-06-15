@@ -74,4 +74,20 @@ class User extends Authenticatable // implements MustVerifyEmail
     {
         return $this->hasMany(Animal::class, 'user_id', 'id');
     }
+
+    /**
+     * Metodos para verificar rol
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role?->id == Role::ADMIN_ID;
+    }
+    public function isVet(): bool
+    {
+        return $this->role?->id == Role::VET_ID;
+    }
+    public function isNormalUser(): bool
+    {
+        return $this->role?->id == Role::NORMAL_ID;
+    }
 }
