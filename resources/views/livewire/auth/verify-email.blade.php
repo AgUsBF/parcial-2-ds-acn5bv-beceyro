@@ -32,30 +32,35 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         $this->redirect('/', navigate: true);
     }
-}; ?>
+};
+?>
 
-<div class="mt-4 flex flex-col gap-6">
-    <div class="text-center text-sm text-gray-600">
-        {{ __('Please verify your email address by clicking on the link we just emailed to you.') }}
-    </div>
+<div class="flex-column mt-10 items-center justify-center max-w-md mx-auto 
+    md:h-screen px-8 py-8 bg-white border border-gray-200 
+    dark:bg-gray-700 dark:border-gray-600 rounded-lg shadow-sm">
+
+    {{-- Titulo --}}
+    <h1 class="text-2xl font-bold leading-tight tracking-tight text-center
+        text-gray-900 md:text-2xl dark:text-white">
+        Por favor verifica tu email haciendo clic en el enlace que acabamos de enviarte.
+    </h1>
 
     @if (session('status') == 'verification-link-sent')
-        <div class="font-medium text-center text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-        </div>
+        <h2 class="text-center font-medium !dark:text-green-400 !text-green-600">
+            Un nuevo enlace de verificación ha sido enviado a la dirección de correo electrónico que proporcionaste durante
+            el registro.
+        </h2>
     @endif
 
-    <div class="flex flex-col items-center justify-between space-y-3">
-        <flux:button wire:click="sendVerification" variant="primary" class="w-full">
-            {{ __('Resend verification email') }}
-        </flux:button>
+    <x-formularios.div class="mt-6">
+        <x-botones.estandar wire:click="sendVerification" class="w-full" type="submit" variant="primary">
+            Enviar nuevo link de verificación
+        </x-botones.estandar>
+    </x-formularios.div>
 
-        <button
-            wire:click="logout"
-            type="submit"
-            class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        >
-            {{ __('Log out') }}
-        </button>
-    </div>
+    <x-formularios.div class="mt-6">
+        <x-botones.estandar wire:click="logout" class="w-full" type="button" variant="secondary">
+            Cerrar sesión
+        </x-botones.estandar>
+    </x-formularios.div>
 </div>

@@ -66,52 +66,73 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         $this->redirectRoute('login', navigate: true);
     }
-}; ?>
+};
+?>
 
-<div class="flex flex-col gap-6">
-    <x-auth-header title="Reset password" description="Please enter your new password below" />
+<div class="flex-column mt-10 items-center justify-center max-w-md mx-auto 
+    md:h-screen px-8 py-8 bg-white border border-gray-200 
+    dark:bg-gray-700 dark:border-gray-600 rounded-lg shadow-sm">
 
-    <!-- Session Status -->
+    {{-- Session Status --}}
     <x-auth-session-status class="text-center" :status="session('status')" />
 
-    <form wire:submit="resetPassword" class="flex flex-col gap-6">
-        <!-- Email Address -->
-        <div class="grid gap-2">
-            <flux:input wire:model="email" id="email" label="{{ __('Email') }}" type="email" name="email" required autocomplete="email" />
-        </div>
+    {{-- Titulo --}}
+    <h1 class="text-2xl font-bold leading-tight tracking-tight text-center
+        text-gray-900 md:text-2xl dark:text-white">
+        Restear contraseña
+    </h1>
 
-        <!-- Password -->
-        <div class="grid gap-2">
-            <flux:input
-                wire:model="password"
-                id="password"
-                label="{{ __('Password') }}"
-                type="password"
-                name="password"
-                required
-                autocomplete="new-password"
-                placeholder="Password"
-            />
-        </div>
+    {{-- Formulario --}}
+    {{-- Email --}}
+    <x-formularios.div>
+        <x-formularios.label for="email">
+            Email
+        </x-formularios.label>
 
-        <!-- Confirm Password -->
-        <div class="grid gap-2">
-            <flux:input
-                wire:model="password_confirmation"
-                id="password_confirmation"
-                label="{{ __('Confirm password') }}"
-                type="password"
-                name="password_confirmation"
-                required
-                autocomplete="new-password"
-                placeholder="Confirm password"
-            />
-        </div>
+        <x-formularios.campo type="email" model="email" id="email" placeholder="correo@patitas.com" required />
 
-        <div class="flex items-center justify-end">
-            <flux:button type="submit" variant="primary" class="w-full">
-                {{ __('Reset password') }}
-            </flux:button>
-        </div>
-    </form>
+        @error('email')
+            <span class="text-red-500 text-sm">
+                {{ $message }}
+            </span>
+        @enderror
+    </x-formularios.div>
+
+    {{-- Passord --}}
+    <x-formularios.div>
+        <x-formularios.label for="password">
+            Contraseña
+        </x-formularios.label>
+
+        <x-formularios.campo type="password" model="password" id="password" placeholder="••••••••" required />
+
+        @error('password')
+            <span class="text-red-500 text-sm">
+                {{ $message }}
+            </span>
+        @enderror
+    </x-formularios.div>
+
+    {{-- Confirmar Passord --}}
+    <x-formularios.div>
+        <x-formularios.label for="password_confirmation">
+            Repetir contraseña
+        </x-formularios.label>
+
+        <x-formularios.campo type="password" model="password_confirmation" id="password_confirmation"
+            placeholder="••••••••" required />
+
+        @error('password_confirmation')
+            <span class="text-red-500 text-sm">
+                {{ $message }}
+            </span>
+        @enderror
+    </x-formularios.div>
+
+    {{-- Boton --}}
+    <x-formularios.div class="mt-6">
+        <x-botones.estandar class="w-full" type="submit" variant="primary">
+            Confirmar
+        </x-botones.estandar>
+    </x-formularios.div>
 </div>

@@ -33,62 +33,36 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         $this->redirect(route('dashboard', absolute: false), navigate: true);
     }
-}; ?>
+};
+?>
 
-<div class="flex flex-col gap-6">
-    <x-auth-header title="Create an account" description="Enter your details below to create your account" />
+<div class="flex-column mt-10 items-center justify-center max-w-md mx-auto 
+    md:h-screen px-8 py-8 bg-white border border-gray-200 
+    dark:bg-gray-700 dark:border-gray-600 rounded-lg shadow-sm">
 
-    <!-- Session Status -->
+    {{-- Session Status --}}
     <x-auth-session-status class="text-center" :status="session('status')" />
 
-    <form wire:submit="register" class="flex flex-col gap-6">
-        <!-- Name -->
-        <div class="grid gap-2">
-            <flux:input wire:model="name" id="name" label="{{ __('Name') }}" type="text" name="name" required autofocus autocomplete="name" placeholder="Full name" />
-        </div>
+    {{-- Titulo --}}
+    <h1 class="text-2xl font-bold leading-tight tracking-tight text-center 
+        text-gray-900 md:text-2xl dark:text-white">
+        Crea tu cuenta
+    </h1>
 
-        <!-- Email Address -->
-        <div class="grid gap-2">
-            <flux:input wire:model="email" id="email" label="{{ __('Email address') }}" type="email" name="email" required autocomplete="email" placeholder="email@example.com" />
-        </div>
+    {{-- Formulario --}}
+    <x-formularios.armados.registro />
 
-        <!-- Password -->
-        <div class="grid gap-2">
-            <flux:input
-                wire:model="password"
-                id="password"
-                label="{{ __('Password') }}"
-                type="password"
-                name="password"
-                required
-                autocomplete="new-password"
-                placeholder="Password"
-            />
-        </div>
+    {{-- Usuario con cuenta --}}
+    <div class="mt-4 flex flex-col items-center justify-center">
 
-        <!-- Confirm Password -->
-        <div class="grid gap-2">
-            <flux:input
-                wire:model="password_confirmation"
-                id="password_confirmation"
-                label="{{ __('Confirm password') }}"
-                type="password"
-                name="password_confirmation"
-                required
-                autocomplete="new-password"
-                placeholder="Confirm password"
-            />
-        </div>
+        {{-- Texto --}}
+        <p class="text-lg text-gray-900 dark:text-white">
+            ¿Ya tenés cuenta?
+        </p>
 
-        <div class="flex items-center justify-end">
-            <flux:button type="submit" variant="primary" class="w-full">
-                {{ __('Create account') }}
-            </flux:button>
-        </div>
-    </form>
-
-    <div class="space-x-1 text-center text-sm text-zinc-600 dark:text-zinc-400">
-        Already have an account?
-        <x-text-link href="{{ route('login') }}">Log in</x-text-link>
+        {{-- Link --}}
+        <x-formularios.link class="text-xl pt-4" href="{{ route('login') }}">
+            Iniciá sesión
+        </x-formularios.link>
     </div>
 </div>
