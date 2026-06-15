@@ -1,0 +1,3 @@
+<div {{ $attributes->merge(['class' => 'py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12']) }}>
+    {{ $slot }}
+</div>
