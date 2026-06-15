@@ -26,7 +26,7 @@ class Animal extends Model
     /**
      * Relaciones
      */
-    public function especie()
+    public function specie()
     {
         return $this->belongsTo(Specie::class, 'specie_id', 'id');
     }
