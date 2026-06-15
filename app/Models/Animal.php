@@ -21,6 +21,8 @@ class Animal extends Model
         'sex',
         'is_sterilized',
         'comment',
+        'specie_id',
+        'user_id',
     ];
 
     /**
