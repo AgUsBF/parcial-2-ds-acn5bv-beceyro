@@ -3,10 +3,10 @@
         <div class="sm:flex sm:items-center sm:justify-between">
             {{-- Logo + Titulo + Link --}}
             <a href="{{ route('home') }}" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-                <img src="{{ asset('favicon.png') }}" class="h-8" alt="Logo Refugio Patitas" />
+                <img src="{{ asset('favicon.png') }}" class="h-8" alt="Logo AguaraVet" />
 
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                    Refugio Patitas
+                    AguaraVet
                 </span>
             </a>
 

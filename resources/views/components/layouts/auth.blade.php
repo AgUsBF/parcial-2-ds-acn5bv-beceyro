@@ -1,3 +1,5 @@
-<x-layouts.auth.simple>
+<x-layouts.plantilla>
+
     {{ $slot }}
-</x-layouts.auth.simple>
+
+</x-layouts.plantilla>
