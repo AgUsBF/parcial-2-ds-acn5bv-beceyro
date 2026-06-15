@@ -4,7 +4,10 @@
             {{-- Logo + Titulo + Link --}}
             <a href="{{ route('home') }}" class="flex items-center">
                 <img src="{{ asset('favicon.png') }}" class="mr-3 h-6 sm:h-9" alt="Logo AguaraVet" />
-                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">AguaraVet</span>
+
+                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+                    AguaraVet
+                </span>
             </a>
 
             {{-- Botonera --}}
@@ -12,29 +15,31 @@
                 {{-- Login --}}
                 @auth
                     <div class="relative inline-block text-left">
-                        <x-botones.estandar id="user-menu" type="button"
-                            class="flex items-center justify-center w-10 h-10 text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                            {{ Auth::user()->name }}
+                        <x-botones.estandar id="user-menu" type="button" class="flex items-center 
+                            justify-center w-10 h-10 text-white bg-gray-800 rounded-md hover:bg-gray-700 
+                            focus:outline-none focus:ring-2 focus:ring-gray-300">
+                            {{ Auth::user()->initials() }}
                         </x-botones.estandar>
 
                         <div id="dropdown"
                             class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg dark:bg-gray-800 z-50">
 
                             {{-- Dashboard para staff --}}
-                            {{-- @if(Auth::user()->esPersonal())
-                            <a href="{{ route('dashboard') }}"
-                                class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
+                            {{-- @if(Auth::user()->isAdmin()) --}}
+                            <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 
+                                hover:bg-gray-100 dark:hover:bg-gray-600">
                                 Dashboard
                             </a>
-                            @endif --}}
+                            {{-- @endif --}}
 
                             {{-- Cerrar sesión --}}
                             <hr class="border-gray-200 dark:border-gray-600">
 
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 
-                                        dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                <button type="submit"
+                                    class="block w-full text-left px-4 py-2 text-sm text-gray-700 
+                                    dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
                                     Cerrar sesión
                                 </button>
                             </form>
