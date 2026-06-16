@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\SpecieController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -37,3 +38,4 @@ Route::post('logout', App\Livewire\Actions\Logout::class)
 
 // Mis Rutas - Admin
 Route::resource('/species', SpecieController::class)->middleware(['auth', 'admin']);
+Route::resource('/roles', RoleController::class)->middleware(['auth', 'admin']);
