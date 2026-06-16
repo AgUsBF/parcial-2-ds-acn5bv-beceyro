@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\SpecieController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -38,8 +39,11 @@ Route::middleware('auth')->group(function () {
 Route::post('logout', App\Livewire\Actions\Logout::class)
     ->name('logout');
 
-// Mis Rutas - Admin
+// Mis Rutas - General
 Route::resource('/dashboard/animals', AnimalController::class)->middleware(['auth', 'admin']);
+Route::resource('/dashboard/appointments', AppointmentController::class)->middleware(['auth', 'admin']);
+
+// Mis Rutas - Admin
 Route::resource('/dashboard/species', SpecieController::class)->middleware(['auth', 'admin']);
 Route::resource('/dashboard/roles', RoleController::class)->middleware(['auth', 'admin']);
 Route::resource('/dashboard/users', UserController::class)->middleware(['auth', 'admin']);
