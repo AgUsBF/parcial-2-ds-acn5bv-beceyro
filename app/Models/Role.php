@@ -9,9 +9,9 @@ class Role extends Model
 {
     protected $table = 'roles';
 
-    const ADMIN_ID = 1;
+    const NORMAL_ID = 1;
     const VET_ID = 2;
-    const NORMAL_ID = 3;
+    const ADMIN_ID = 3;
 
     /**
      * Atributos asignables

@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         }
 
         // ROLES
-        $roles = ['Admin', 'Veterinario', 'Propietario'];
+        $roles = ['Propietario', 'Veterinario', 'Admin'];
 
         foreach ($roles as $role) {
             Role::create([
