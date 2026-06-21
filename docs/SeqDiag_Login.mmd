@@ -1,0 +1,39 @@
+sequenceDiagram
+    autonumber
+    actor Usuario as Usuario (Navegador)
+    participant Route as Router (routes/auth.php)
+    participant Component as Volt: auth.login<br/>(livewire/auth/login.blade.php)
+    participant Form as Vista: login.blade.php<br/>(formularios/armados/login)
+    participant Limiter as RateLimiter
+    participant Auth as Auth Manager (Guard)
+    participant Session as Session
+
+    Usuario->>Route: GET /login
+    Route->>Component: Carga el componente Livewire Volt
+    Component->>Form: Renderiza el formulario de login
+    Form-->>Usuario: Muestra campos (Email, Contraseña, Recordarme)
+    
+    Usuario->>Form: Completa datos y hace clic en "Ingresar"
+    Form->>Component: Envía evento Livewire `wire:submit.prevent="login"` con datos
+    
+    activate Component
+    Component->>Component: $this->validate() (Valida campos en backend)
+    
+    Component->>Limiter: $this->ensureIsNotRateLimited()
+    alt Demasiados intentos fallidos (Límite alcanzado)
+        Limiter-->>Component: Retorna Lockout
+        Component->>Usuario: Lanza ValidationException (Mensaje con tiempo de espera)
+    else Menos de 5 intentos
+        Component->>Auth: Auth::attempt($credentials, $remember)
+        alt Credenciales Incorrectas
+            Auth-->>Component: Retorna false
+            Component->>Limiter: RateLimiter::hit($throttleKey)
+            Component-->>Usuario: Lanza ValidationException (auth.failed)
+        else Credenciales Correctas
+            Auth-->>Component: Retorna true
+            Component->>Limiter: RateLimiter::clear($throttleKey)
+            Component->>Session: Session::regenerate() (Previene fijación de sesión)
+            Component->>Usuario: $this->redirectIntended(route('dashboard'), navigate: true)
+        end
+    end
+    deactivate Component

@@ -1,0 +1,31 @@
+sequenceDiagram
+    autonumber
+    actor Usuario as Usuario (Navegador)
+    participant Route as Router (routes/auth.php)
+    participant Component as Volt: auth.register<br/>(livewire/auth/register.blade.php)
+    participant Form as Vista: registro.blade.php<br/>(formularios/armados/registro)
+    participant DB as Modelo: User<br/>(database)
+    participant Event as Event Dispatcher
+    participant Auth as Auth Manager (Guard)
+
+    Usuario->>Route: GET /register
+    Route->>Component: Carga el componente Livewire Volt
+    Component->>Form: Renderiza el formulario de registro
+    Form-->>Usuario: Muestra campos (Nombre, Email, Contraseña, Confirmar)
+    
+    Usuario->>Form: Completa datos y hace clic en "Confirmar"
+    Form->>Component: Envía evento Livewire `wire:submit.prevent="register"` con datos
+    
+    activate Component
+    Component->>Component: $this->validate(...)<br/>(Valida reglas de campos)
+    alt Validación Falla
+        Component-->>Usuario: Retorna errores de validación (ej. Email duplicado)
+    else Validación Exitosa
+        Component->>Component: Hash::make($password) (Encripta contraseña)
+        Component->>DB: User::create($validated) (Inserta usuario en DB)
+        DB-->>Component: Retorna instancia de User
+        Component->>Event: event(new Registered($user)) (Dispara evento de registro)
+        Component->>Auth: Auth::login($user) (Inicia sesión del usuario)
+        Component->>Usuario: $this->redirect(route('dashboard'), navigate: true)
+    end
+    deactivate Component
