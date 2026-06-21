@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Models\Role;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
-use App\Models\Role;
 
 class RoleTable extends DataTableComponent
 {
@@ -18,18 +18,22 @@ class RoleTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Id", "id")
+            Column::make('Id', 'id')
                 ->sortable(),
 
-            Column::make("Nombre", "name")
+            Column::make('Nombre', 'name')
                 ->sortable()
                 ->searchable(),
 
-            Column::make("Creación", "created_at")
+            Column::make('Creación', 'created_at')
                 ->sortable(),
 
-            Column::make("Edición", "updated_at")
+            Column::make('Edición', 'updated_at')
                 ->sortable(),
+
+            Column::make('Acciones')
+                ->label(fn ($row, Column $column) => view('roles.actions', ['row' => $row]))
+                ->html(),
         ];
     }
 }
