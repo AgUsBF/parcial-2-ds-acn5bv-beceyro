@@ -41,35 +41,35 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@test.com',
             'password' => bcrypt('1234'),
-            'role_id' => 1,
+            'role_id' => Role::ADMIN_ID,
         ]);
         // Propietario 1
         User::create([
             'name' => 'Usuario 1',
             'email' => 'user1@test.com',
             'password' => bcrypt('1234'),
-            'role_id' => 2,
+            'role_id' => Role::NORMAL_ID,
         ]);
         // Propietario 2
         User::create([
             'name' => 'Usuario 2',
             'email' => 'user2@test.com',
             'password' => bcrypt('1234'),
-            'role_id' => 2,
+            'role_id' => Role::NORMAL_ID,
         ]);
         // Veterinario 1
         User::create([
             'name' => 'Veterinario 1',
             'email' => 'veterinario1@test.com',
             'password' => bcrypt('1234'),
-            'role_id' => 3,
+            'role_id' => Role::VET_ID,
         ]);
         // Veterinario 2
         User::create([
             'name' => 'Veterinario 2',
             'email' => 'veterinario2@test.com',
             'password' => bcrypt('1234'),
-            'role_id' => 3,
+            'role_id' => Role::VET_ID,
         ]);
         
         // MASCOTAS
