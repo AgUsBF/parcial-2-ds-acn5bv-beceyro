@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleRequest;
 use App\Models\Role;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Requests\RoleRequest;
 
 class RoleController extends Controller
 {
@@ -16,7 +16,7 @@ class RoleController extends Controller
     public function create()
     {
         return view('roles.form', [
-            'role' => null
+            'role' => null,
         ]);
     }
 

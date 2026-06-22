@@ -25,7 +25,8 @@
                 @endphp
 
                 @if(!$readonly)
-                    <form action="{{ $role ? route('roles.update', $role->id) : route('roles.store') }}" method="POST" class="space-y-6">
+                    <form action="{{ $role ? route('roles.update', $role->id) : route('roles.store') }}" 
+                        method="POST" class="space-y-6">
                         @csrf
                         @if($role)
                             @method('PUT')

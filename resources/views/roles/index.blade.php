@@ -38,9 +38,10 @@
             </div>
 
             {{-- Tabla --}}
-            <div class="py-4 px-8 w-full flex flex-col justify-center items-center livewire-table bg-white 
-                dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
+            <div class="py-4 px-8 w-full flex flex-col justify-center items-center livewire-table">
+
                 <livewire:role-table />
+
             </div>
         </div>
 
