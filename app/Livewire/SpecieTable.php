@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Models\Specie;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
-use App\Models\Specie;
 
 class SpecieTable extends DataTableComponent
 {
@@ -30,6 +30,10 @@ class SpecieTable extends DataTableComponent
 
             Column::make("Edición", "updated_at")
                 ->sortable(),
+            
+            Column::make('Acciones')
+                ->label(fn ($row, Column $column) => view('species.actions', ['row' => $row]))
+                ->html(),
         ];
     }
 }

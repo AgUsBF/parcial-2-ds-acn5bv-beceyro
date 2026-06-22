@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SpecieRequest;
 use App\Models\Specie;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Requests\SpecieRequest;
 
 class SpecieController extends Controller
 {
@@ -16,7 +16,7 @@ class SpecieController extends Controller
     public function create()
     {
         return view('species.form', [
-            'specie' => null
+            'specie' => null,
         ]);
     }
 
@@ -34,25 +34,25 @@ class SpecieController extends Controller
             ->with('error', 'No se pudo crear la especie.');
     }
 
-    public function show(Specie $specie)
+    public function show(Specie $species)
     {
         return view('species.form', [
-            'specie' => $specie
+            'specie' => $species,
         ]);
     }
 
-    public function edit(Specie $specie)
+    public function edit(Specie $species)
     {
         return view('species.form', [
-            'specie' => $specie
+            'specie' => $species,
         ]);
     }
 
-    public function update(SpecieRequest $request, Specie $specie): RedirectResponse
+    public function update(SpecieRequest $request, Specie $species): RedirectResponse
     {
         $data = $request->validated();
 
-        if ($specie->update($data)) {
+        if ($species->update($data)) {
             return redirect()->route('species.index')
                 ->with('success', 'Especie actualizada correctamente.');
         }
@@ -61,9 +61,9 @@ class SpecieController extends Controller
             ->with('error', 'No se pudo actualizar la especie.');
     }
 
-    public function destroy(Specie $specie): RedirectResponse
+    public function destroy(Specie $species): RedirectResponse
     {
-        if ($specie->delete()) {
+        if ($species->delete()) {
             return redirect()->route('species.index')
                 ->with('success', 'Especie eliminada correctamente.');
         }
