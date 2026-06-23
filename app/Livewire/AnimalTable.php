@@ -3,7 +3,10 @@
 namespace App\Livewire;
 
 use App\Models\Animal;
+use App\Models\Role;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 
@@ -15,6 +18,19 @@ class AnimalTable extends DataTableComponent
     {
         $this->setPrimaryKey('id');
         $this->setDefaultSort('id', 'asc');
+    }
+
+    public function builder(): Builder
+    {
+        $query = Animal::query()->with($this->getRelationships());
+
+        $user = Auth::user();
+
+        if ($user?->role_id !== Role::ADMIN_ID) {
+            $query->where('user_id', $user?->id);
+        }
+
+        return $query;
     }
 
     public function columns(): array

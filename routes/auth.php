@@ -41,7 +41,15 @@ Route::post('logout', Logout::class)
     ->name('logout');
 
 // Mis Rutas - General
-Route::resource('/dashboard/animals', AnimalController::class)->middleware(['auth']);
+Route::resource('/dashboard/animals', AnimalController::class)->middleware(['auth'])->except(['show', 'edit', 'update', 'destroy']);
+
+Route::middleware(['auth', 'can-access-animal'])->group(function () {
+    Route::get('/dashboard/animals/{animal}', [AnimalController::class, 'show'])->name('animals.show');
+    Route::get('/dashboard/animals/{animal}/edit', [AnimalController::class, 'edit'])->name('animals.edit');
+    Route::put('/dashboard/animals/{animal}', [AnimalController::class, 'update'])->name('animals.update');
+    Route::delete('/dashboard/animals/{animal}', [AnimalController::class, 'destroy'])->name('animals.destroy');
+});
+
 Route::resource('/dashboard/appointments', AppointmentController::class)->middleware(['auth', 'admin']);
 
 // Mis Rutas - Admin

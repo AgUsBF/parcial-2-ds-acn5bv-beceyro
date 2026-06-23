@@ -262,4 +262,63 @@ class AnimalTest extends TestCase
         $response->assertSee('Sí');
         $response->assertSee('Acciones');
     }
+
+    public function test_normal_user_cannot_access_another_users_animal_record(): void
+    {
+        $specie = Specie::create(['name' => 'Perro']);
+        $animal = Animal::create([
+            'name' => 'Mascota de Admin',
+            'birth_date' => '2022-03-03',
+            'sex' => 'Macho',
+            'is_sterilized' => false,
+            'comment' => 'No debería ver esto',
+            'specie_id' => $specie->id,
+            'user_id' => $this->admin->id,
+        ]);
+
+        $response = $this->actingAs($this->normalUser)
+            ->get(route('animals.show', $animal->id));
+
+        $response->assertForbidden();
+    }
+
+    public function test_normal_user_can_access_their_own_animal_record(): void
+    {
+        $specie = Specie::create(['name' => 'Perro']);
+        $animal = Animal::create([
+            'name' => 'Mascota de Admin',
+            'birth_date' => '2022-03-03',
+            'sex' => 'Macho',
+            'is_sterilized' => false,
+            'comment' => 'No debería ver esto',
+            'specie_id' => $specie->id,
+            'user_id' => $this->normalUser->id,
+        ]);
+
+        $response = $this->actingAs($this->normalUser)
+            ->get(route('animals.show', $animal->id));
+
+        $response->assertStatus(200);
+        $response->assertSee('Detalle de Mascota');
+    }
+
+    public function test_admin_can_access_another_users_animal_record(): void
+    {
+        $specie = Specie::create(['name' => 'Gato']);
+        $animal = Animal::create([
+            'name' => 'Mascota de Usuario',
+            'birth_date' => '2021-04-04',
+            'sex' => 'Hembra',
+            'is_sterilized' => true,
+            'comment' => 'Visible para admin',
+            'specie_id' => $specie->id,
+            'user_id' => $this->normalUser->id,
+        ]);
+
+        $response = $this->actingAs($this->admin)
+            ->get(route('animals.show', $animal->id));
+
+        $response->assertStatus(200);
+        $response->assertSee('Detalle de Mascota');
+    }
 }

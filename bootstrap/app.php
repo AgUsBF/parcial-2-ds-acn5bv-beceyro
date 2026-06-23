@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => \App\Http\Middleware\Admin::class,
             'vete' => \App\Http\Middleware\Vet::class,
+            'can-access-animal' => \App\Http\Middleware\EnsureUserCanAccessAnimal::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
