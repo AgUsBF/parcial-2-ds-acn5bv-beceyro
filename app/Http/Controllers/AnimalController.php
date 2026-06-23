@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Animal;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\AnimalRequest;
+use App\Models\Animal;
+use App\Models\Specie;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 
 class AnimalController extends Controller
 {
@@ -16,7 +18,9 @@ class AnimalController extends Controller
     public function create()
     {
         return view('animals.form', [
-            'animal' => null
+            'animal' => null,
+            'species' => Specie::query()->orderBy('name')->get(),
+            'users' => User::query()->orderBy('name')->get(),
         ]);
     }
 
@@ -26,7 +30,7 @@ class AnimalController extends Controller
         $animal = Animal::create($data);
 
         if ($animal) {
-            return redirect()->route('animal.index')
+            return redirect()->route('animals.index')
                 ->with('success', 'Mascota creada correctamente.');
         }
 
@@ -37,14 +41,18 @@ class AnimalController extends Controller
     public function show(Animal $animal)
     {
         return view('animals.form', [
-            'animal' => $animal
+            'animal' => $animal,
+            'species' => Specie::query()->orderBy('name')->get(),
+            'users' => User::query()->orderBy('name')->get(),
         ]);
     }
 
     public function edit(Animal $animal)
     {
         return view('animals.form', [
-            'animal' => $animal
+            'animal' => $animal,
+            'species' => Specie::query()->orderBy('name')->get(),
+            'users' => User::query()->orderBy('name')->get(),
         ]);
     }
 
@@ -72,4 +80,3 @@ class AnimalController extends Controller
             ->with('error', 'No se pudo eliminar la mascota.');
     }
 }
-

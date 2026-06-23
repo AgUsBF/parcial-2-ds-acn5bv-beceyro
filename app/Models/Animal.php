@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Specie;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Animal extends Model
 {
@@ -24,6 +23,19 @@ class Animal extends Model
         'specie_id',
         'user_id',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'birth_date' => 'date',
+            'is_sterilized' => 'boolean',
+        ];
+    }
 
     /**
      * Relaciones

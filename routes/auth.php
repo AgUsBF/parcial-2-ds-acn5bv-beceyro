@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\SpecieController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SpecieController;
 use App\Http\Controllers\UserController;
+use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -36,11 +37,11 @@ Route::middleware('auth')->group(function () {
         ->name('password.confirm');
 });
 
-Route::post('logout', App\Livewire\Actions\Logout::class)
+Route::post('logout', Logout::class)
     ->name('logout');
 
 // Mis Rutas - General
-Route::resource('/dashboard/animals', AnimalController::class)->middleware(['auth', 'admin']);
+Route::resource('/dashboard/animals', AnimalController::class)->middleware(['auth']);
 Route::resource('/dashboard/appointments', AppointmentController::class)->middleware(['auth', 'admin']);
 
 // Mis Rutas - Admin
