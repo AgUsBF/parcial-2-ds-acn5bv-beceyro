@@ -1,0 +1,44 @@
+sequenceDiagram
+    autonumber
+    actor Usuario as Usuario / Administrador
+    participant Vista as Vista Blade (index/form)
+    participant Controlador as Controlador (RoleController / SpecieController)
+    participant Request as Request (RoleRequest / SpecieRequest)
+    participant Modelo as Modelo (Role / Specie)
+    participant DB as Base de datos
+    participant Session as Sesión / Redirect
+
+    Note over Usuario,DB: Flujo genérico para CRUD de Roles y Especies
+
+    Usuario->>Vista: Accede a la pantalla de listado o formulario
+    alt Ver listado / formulario
+        Vista->>Controlador: index() / create() / edit() / show()
+        Controlador->>Vista: Retorna la vista correspondiente
+        Vista-->>Usuario: Muestra la interfaz
+    end
+
+    Usuario->>Vista: Envía formulario (crear, actualizar o eliminar)
+    Vista->>Controlador: store() / update() / destroy()
+    Controlador->>Request: validated()
+    Request-->>Controlador: Datos validados
+
+    alt Crear
+        Controlador->>Modelo: create($data)
+        Modelo->>DB: INSERT INTO roles/species
+        DB-->>Modelo: Registro creado
+        Modelo-->>Controlador: Instancia creada
+    else Actualizar
+        Controlador->>Modelo: update($data)
+        Modelo->>DB: UPDATE roles/species
+        DB-->>Modelo: Registro actualizado
+        Modelo-->>Controlador: Instancia actualizada
+    else Eliminar
+        Controlador->>Modelo: delete()
+        Modelo->>DB: DELETE FROM roles/species
+        DB-->>Modelo: Registro eliminado
+        Modelo-->>Controlador: Eliminación confirmada
+    end
+
+    Controlador->>Session: redirect()->route(...)->with('success'|'error')
+    Session-->>Usuario: Redirección y mensaje de feedback
+    Usuario->>Vista: Recarga la vista resultante

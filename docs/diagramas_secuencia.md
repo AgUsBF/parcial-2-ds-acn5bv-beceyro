@@ -1,8 +1,4 @@
-# Diagramas de Secuencia para el Proceso de Autenticación
-
-Este documento describe detalladamente los flujos de secuencia para los procesos de **Registro** e **Inicio de Sesión (Login)** implementados en la aplicación utilizando Laravel 12 y Livewire Volt (Single File Components).
-
----
+# Diagramas de Secuencia
 
 ## 1. Diagrama de Secuencia de Registro de Usuario
 
@@ -28,3 +24,25 @@ El inicio de sesión se gestiona mediante el componente Livewire Volt `auth.logi
 4. **Intento de Autenticación:** Se utiliza `Auth::attempt` pasando las credenciales e indicando si se debe recordar la sesión (`remember`).
 5. **Fallo de Login:** Si las credenciales no son válidas, se incrementa el contador del limitador (`RateLimiter::hit`) y se le notifica al usuario.
 6. **Éxito de Login:** Si son correctas, se limpia el limitador (`RateLimiter::clear`), se regenera el ID de la sesión para evitar ataques de fijación de sesión (`Session::regenerate`), y se le redirige al dashboard o a la ruta que intentaba acceder originalmente mediante `$this->redirectIntended()`.
+
+---
+
+## 3. Diagrama de Secuencia Genérico CRUD
+
+El flujo genérico de gestión de entidades como `Role` y `Specie` sigue un patrón común en los controladores `RoleController` y `SpecieController`, así como en sus vistas Blade y modelos Eloquent. Este proceso cubre las operaciones de listado, creación, edición, actualización y eliminación.
+
+Detalles del flujo:
+
+1. **Acceso a la interfaz:** El usuario entra a la vista de listado (`index`) o a un formulario (`create`, `edit` o `show`).
+2. **Solicitud a la vista:** La vista Blade renderiza la interfaz correspondiente y, si corresponde, muestra botones para crear, editar o eliminar registros.
+3. **Invocación del controlador:** Al interactuar con la aplicación, la ruta llama al método del controlador correspondiente: `index()`, `create()`, `edit()`, `show()`, `store()`, `update()` o `destroy()`.
+4. **Validación de datos:** En los casos de creación y actualización, el controlador delega la validación al `Request` correspondiente (`RoleRequest` o `SpecieRequest`) mediante `validated()`.
+5. **Persistencia en el modelo:** El controlador utiliza el modelo `Role` o `Specie` para ejecutar la operación deseada:
+   - `create($data)` para insertar un nuevo registro,
+   - `update($data)` para modificar uno existente,
+   - `delete()` para eliminar un registro.
+6. **Interacción con la base de datos:** El modelo Eloquent ejecuta la operación sobre la tabla correspondiente (`roles` o `species`) y devuelve el resultado al controlador.
+7. **Respuesta del controlador:** Según el resultado, el controlador devuelve una redirección con un mensaje de éxito o error mediante `redirect()->route(...)->with('success'|'error')`.
+8. **Feedback visual:** La vista muestra el mensaje de feedback al usuario y recarga la interfaz con el estado actualizado del listado o del formulario.
+
+Este patrón es representativo porque los módulos comparten la misma arquitectura: vista Blade, controlador, request de validación, modelo Eloquent y base de datos, con un flujo de redirección y mensajes de estado muy similar.

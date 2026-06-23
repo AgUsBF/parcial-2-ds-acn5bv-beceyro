@@ -1,0 +1,45 @@
+erDiagram
+    SPECIE {
+        int id PK
+        string name
+    }
+
+    ROLE {
+        int id PK
+        string name
+    }
+
+    USER {
+        int id PK
+        string name
+        string email
+        string password
+        int role_id FK
+        datetime email_verified_at
+        string remember_token
+    }
+
+    ANIMAL {
+        int id PK
+        string name
+        date birth_date
+        string sex
+        boolean is_sterilized
+        string comment
+        int specie_id FK
+        int user_id FK
+    }
+
+    APPOINTMENT {
+        int id PK
+        date date
+        time time
+        int user_id FK
+        int animal_id FK
+    }
+    
+    ROLE ||--o{ USER : tiene
+    SPECIE ||--o{ ANIMAL : tiene
+    USER ||--o{ ANIMAL : tiene
+    USER ||--o{ APPOINTMENT : tiene
+    ANIMAL ||--o{ APPOINTMENT : asiste
