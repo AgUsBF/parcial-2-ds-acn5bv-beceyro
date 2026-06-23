@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -16,7 +16,7 @@ class UserController extends Controller
     public function create()
     {
         return view('users.form', [
-            'user' => null
+            'user' => null,
         ]);
     }
 
@@ -37,14 +37,14 @@ class UserController extends Controller
     public function show(User $user)
     {
         return view('users.form', [
-            'user' => $user
+            'user' => $user,
         ]);
     }
 
     public function edit(User $user)
     {
         return view('users.form', [
-            'user' => $user
+            'user' => $user,
         ]);
     }
 
@@ -71,5 +71,9 @@ class UserController extends Controller
         return redirect()->route('users.index')
             ->with('error', 'No se pudo eliminar el usuario.');
     }
-}
 
+    public function vets()
+    {
+        return view('users.vets');
+    }
+}

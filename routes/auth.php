@@ -40,19 +40,24 @@ Route::middleware('auth')->group(function () {
 Route::post('logout', Logout::class)
     ->name('logout');
 
-// Mis Rutas - General
+// MIS RUTAS - GENERAL
+// Animals
 Route::resource('/dashboard/animals', AnimalController::class)->middleware(['auth'])->except(['show', 'edit', 'update', 'destroy']);
-
 Route::middleware(['auth', 'can-access-animal'])->group(function () {
     Route::get('/dashboard/animals/{animal}', [AnimalController::class, 'show'])->name('animals.show');
     Route::get('/dashboard/animals/{animal}/edit', [AnimalController::class, 'edit'])->name('animals.edit');
     Route::put('/dashboard/animals/{animal}', [AnimalController::class, 'update'])->name('animals.update');
     Route::delete('/dashboard/animals/{animal}', [AnimalController::class, 'destroy'])->name('animals.destroy');
 });
+// Appointments
+Route::resource('/dashboard/appointments', AppointmentController::class)->middleware(['auth']);
+// Vets
+Route::get('/dashboard/vets', [UserController::class, 'vets'])->middleware(['auth'])->name('users.vets');
 
-Route::resource('/dashboard/appointments', AppointmentController::class)->middleware(['auth', 'admin']);
-
-// Mis Rutas - Admin
+// MIS RUTAS - ADMIN
+// Species
 Route::resource('/dashboard/species', SpecieController::class)->middleware(['auth', 'admin']);
+// Roles
 Route::resource('/dashboard/roles', RoleController::class)->middleware(['auth', 'admin']);
+// Users
 Route::resource('/dashboard/users', UserController::class)->middleware(['auth', 'admin']);
