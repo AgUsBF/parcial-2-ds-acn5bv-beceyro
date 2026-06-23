@@ -24,6 +24,8 @@
                 @php
                     $errors = $errors ?? new \Illuminate\Support\ViewErrorBag();
                     $readonly = Route::is('animals.show');
+                    $currentUser = auth()->user();
+                    $isOwnerUser = $currentUser?->role_id === \App\Models\Role::NORMAL_ID;
                 @endphp
 
                 @if(!$readonly)
@@ -157,28 +159,32 @@
                     </div>
 
                     {{-- Campo Usuario / Propietario --}}
-                    <div>
-                        <label for="user_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                            Propietario
-                        </label>
+                    @if(!$isOwnerUser)
+                        <div>
+                            <label for="user_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Propietario
+                            </label>
 
-                        <select name="user_id" id="user_id"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            required
-                            @if($readonly) disabled @endif>
-                            <option value="">Seleccione un propietario</option>
-                            @foreach($users as $user)
-                                <option value="{{ $user->id }}" {{ old('user_id', $animal?->user_id) == $user->id ? 'selected' : '' }}>
-                                    {{ $user->name }} ({{ $user->email }})
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('user_id')
-                            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                            <select name="user_id" id="user_id"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                required
+                                @if($readonly) disabled @endif>
+                                <option value="">Seleccione un propietario</option>
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}" {{ old('user_id', $animal?->user_id) == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }} ({{ $user->email }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('user_id')
+                                <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+                        </div>
+                    @else
+                        <input type="hidden" name="user_id" value="{{ old('user_id', $animal?->user_id ?? $currentUser?->id) }}">
+                    @endif
 
                     {{-- Botones de Accion --}}
                     <div class="flex items-center justify-between space-x-4 pt-4 border-t border-gray-200 dark:border-gray-700">

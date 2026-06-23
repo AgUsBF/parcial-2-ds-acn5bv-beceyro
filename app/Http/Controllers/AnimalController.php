@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AnimalRequest;
 use App\Models\Animal;
+use App\Models\Role;
 use App\Models\Specie;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -27,6 +28,11 @@ class AnimalController extends Controller
     public function store(AnimalRequest $request): RedirectResponse
     {
         $data = $request->validated();
+
+        if ($request->user()?->role_id === Role::NORMAL_ID) {
+            $data['user_id'] = $request->user()->id;
+        }
+
         $animal = Animal::create($data);
 
         if ($animal) {

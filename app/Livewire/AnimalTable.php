@@ -58,7 +58,8 @@ class AnimalTable extends DataTableComponent
                 ->sortable(),
 
             Column::make('Propietario', 'user.name')
-                ->sortable(),
+                ->sortable()
+                ->hideIf(Auth::user()?->role_id === Role::NORMAL_ID),
 
             Column::make('Creación', 'created_at')
                 ->sortable()
