@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->date('birth_date')->nullable();
             $table->string('sex', 10);
             $table->boolean('is_sterilized')->default(false);
-            $table->text('comment');
+            $table->text('comment')->nullable();
             $table->foreignId('specie_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
