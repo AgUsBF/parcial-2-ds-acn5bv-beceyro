@@ -1,0 +1,36 @@
+flowchart TB
+
+    subgraph ui[UI]
+        user[Navegador]
+        front[Blade + Livewire \n Tailwind CSS]
+
+        user <--> front
+    end
+
+    subgraph app[Laravel App]
+        routes[Routes]
+        middleware[Middleware]
+        controllers[Controllers]
+        models[Modelos Eloquent]
+        requests[Requests]
+
+        routes <--> middleware
+        middleware <--> controllers
+        controllers <--> models
+        controllers <--> requests
+    end
+
+    subgraph sql[PostgreSQL]
+        tables[(Tablas)]
+    end
+
+    front <--> app
+    models <--> sql
+
+    classDef ui fill:#FFFBEB,stroke:#D97706,stroke-width:1px,color:#111827;
+    classDef app fill:#EEF2FF,stroke:#4F46E5,stroke-width:1px,color:#111827;
+    classDef dato fill:#ECFDF5,stroke:#059669,stroke-width:1px,color:#111827;
+
+    class ui ui;
+    class sql dato;
+    class app capa;

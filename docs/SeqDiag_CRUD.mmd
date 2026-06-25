@@ -8,8 +8,6 @@ sequenceDiagram
     participant DB as Base de datos
     participant Session as Sesión / Redirect
 
-    Note over Usuario,DB: Flujo genérico para CRUD de Roles y Especies
-
     Usuario->>Vista: Accede a la pantalla de listado o formulario
     alt Ver listado / formulario
         Vista->>Controlador: index() / create() / edit() / show()
