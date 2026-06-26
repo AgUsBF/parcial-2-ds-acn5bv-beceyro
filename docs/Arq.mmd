@@ -20,17 +20,25 @@ flowchart TB
         controllers <--> requests
     end
 
-    subgraph sql[PostgreSQL]
-        tables[(Tablas)]
+    subgraph datos[Capa de datos / Infra]
+        sql[(PostgreSQL)]
+        media[Media Library]
+        redis[Redis]
+        storage[Storage]
+
+        sql <--> media
     end
 
     front <--> app
     models <--> sql
+    models <--> media
+    app <--> redis
+    app <--> storage
 
     classDef ui fill:#FFFBEB,stroke:#D97706,stroke-width:1px,color:#111827;
-    classDef app fill:#EEF2FF,stroke:#4F46E5,stroke-width:1px,color:#111827;
-    classDef dato fill:#ECFDF5,stroke:#059669,stroke-width:1px,color:#111827;
+    classDef app fill:#FFE4E6,stroke:#E11D48,stroke-width:1px,color:#111827;
+    classDef datos fill:#ECFDF5,stroke:#059669,stroke-width:1px,color:#111827;
 
     class ui ui;
-    class sql dato;
-    class app capa;
+    class app app;
+    class datos datos;
